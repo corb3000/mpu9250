@@ -162,10 +162,10 @@ class MPU9250:
 		self.__writeRegister(self.cfg.UserControl, self.cfg.I2CMasterEnable)
 		self.__writeRegister(self.cfg.I2CMasterControl, self.cfg.I2CMasterClock)
 
-		# self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963PowerDown)
-		#self.__writeRegister(self.cfg.PowerManagement1, self.cfg.PowerReset) # power is not reseting
+		self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963PowerDown)
+		self.__writeRegister(self.cfg.PowerManagement1, self.cfg.PowerReset) # power is not reseting
 		time.sleep(0.01)
-		#self.__writeAK8963Register(self.cfg.Ak8963CNTL2, self.cfg.Ak8963Reset) # AK8963 is not resetting
+		self.__writeAK8963Register(self.cfg.Ak8963CNTL2, self.cfg.Ak8963Reset) # AK8963 is not resetting
 		self.__writeRegister(self.cfg.PowerManagement1, self.cfg.ClockPLL)
 
 		name = self.__whoAmI()
