@@ -170,7 +170,7 @@ class MPU9250:
 
 		name = self.__whoAmI()
 		if not (name[0] == 112 or name[0] == 115 ):
-			print ("The name is wrong {0}".format(name))
+			print ("The name is wrong {0}".format(name[0]))
 		self.__writeRegister(self.cfg.PowerManagement2, self.cfg.SensorEnable)
 
 		self.setAccelRange("AccelRangeSelect16G")
@@ -188,7 +188,7 @@ class MPU9250:
 
 		magName = self.__whoAmIAK8963() # mag name seems to be different
 		if magName[0] != 72:
-			print ("The mag name is different and it is {0}".format(magName))
+			print ("The mag name is different and it is {0}".format(magName[0]))
 
 		self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963FuseROM)
 		time.sleep(0.1)
@@ -670,7 +670,7 @@ class MPU9250:
 		val = self.__readAK8963Registers(subaddress, 1)
 
 		if val[0] != data:
-			print ("looks like it did not write properly")
+			print ("looks like AK8963 Register {0} not write {1} data properly".format(subaddress,data))
 		return 1
 
 	def __readAK8963Registers(self, subaddress, count):
