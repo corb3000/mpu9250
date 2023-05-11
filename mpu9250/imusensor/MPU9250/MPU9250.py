@@ -164,12 +164,12 @@ class MPU9250:
 
 		self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963PowerDown)
 		self.__writeRegister(self.cfg.PowerManagement1, self.cfg.PowerReset) # power is not reseting
-		time.sleep(0.01)
+		time.sleep(0.1)
 		self.__writeAK8963Register(self.cfg.Ak8963CNTL2, self.cfg.Ak8963Reset) # AK8963 is not resetting
 		self.__writeRegister(self.cfg.PowerManagement1, self.cfg.ClockPLL)
 
 		name = self.__whoAmI()
-		if not (name[0] == 112 or name[0] == 115 ):
+		if not (name[0] == 113 or name[0] == 115 ):
 			print ("The name is wrong {0}".format(name[0]))
 		self.__writeRegister(self.cfg.PowerManagement2, self.cfg.SensorEnable)
 

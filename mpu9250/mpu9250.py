@@ -55,7 +55,7 @@ class MyPythonNode(Node):
         self.imu.Magtransform = np.reshape(np.asarray(self.get_parameter('magnetometer_transform')._value),(3,3))
 
         self.publisher_imu_raw_ = self.create_publisher(Imu, "/imu/data_raw", 10)
-        self.publisher_imu_data_ = self.create_publisher(Imu, "/imu/data", 10)
+        self.publisher_imu_data_ = self.create_publisher(Imu, "/imu/data/imu", 10)
         self.publisher_imu_mag_ = self.create_publisher(MagneticField, "/imu/mag", 10)
 
         self.timer_publish_imu_values_ = self.create_timer(1.0/self.get_parameter('frequency')._value, self.publish_imu_values)
