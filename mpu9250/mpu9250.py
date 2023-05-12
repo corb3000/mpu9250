@@ -72,7 +72,7 @@ class MyPythonNode(Node):
             self.imu.caliberateMagPrecise() # calibrate mag
 
         if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
-            self.imu.saveCalibDataToFile('/home/bigshark/dev/imu_cal.json')
+            self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')
 
 
         self.timer_publish_imu_values_ = self.create_timer(1.0/self.get_parameter('frequency')._value, self.publish_imu_values)
