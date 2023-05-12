@@ -25,7 +25,7 @@ class MyPythonNode(Node):
             parameters=[
                 ('pub_mag', True),
                 ('pub_raw', True),
-                ('pub_data', True),
+                ('pub_data', False),
                 ('use_mag', True),
                 ('frequency', 100),
                 ('frame_id', 'imu'),
