@@ -27,6 +27,8 @@ class MyPythonNode(Node):
                 ('pub_raw', True),
                 ('pub_data', False),
                 ('use_mag', True),
+                ('cal_mag', True),
+                ('cal_acc', True),
                 ('frequency', 100),
                 ('frame_id', 'imu'),
                 ('i2c_address', 0x68),
@@ -57,6 +59,14 @@ class MyPythonNode(Node):
         self.publisher_imu_raw_ = self.create_publisher(Imu, "/imu/data_raw", 10)
         self.publisher_imu_data_ = self.create_publisher(Imu, "/imu/data/imu", 10)
         self.publisher_imu_mag_ = self.create_publisher(MagneticField, "/imu/mag", 10)
+
+        if self.get_parameter('cal_acc')._value:
+            self.imu.begin()
+            self.imu.caliberateAccelerometer() # calibrate ACC
+
+        if self.get_parameter('cal_mag')._value:
+            self.imu.begin()
+            self.imu.caliberateMagPrecise() # calibrate mag
 
         self.timer_publish_imu_values_ = self.create_timer(1.0/self.get_parameter('frequency')._value, self.publish_imu_values)
 
