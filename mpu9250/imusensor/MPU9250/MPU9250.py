@@ -502,7 +502,7 @@ class MPU9250:
 		pitch and roll angles.
 
 		"""
-
+		input("Make sure you rotate the sensor in 8 shape and cover all the pitch and roll angles.. Press enter to continue..")
 		currentSRD = self.CurrentSRD
 		self.setSRD(19)
 		numSamples = 1000
@@ -512,7 +512,7 @@ class MPU9250:
 			magvals[sample] = self.MagVals/self.Mags + self.MagBias
 			time.sleep(0.05)
 		centre, evecs, radii, v = self.__ellipsoid_fit(magvals)
-
+		print ("Mag calibration compleat")
 		a, b, c = radii
 		r = (a * b * c) ** (1. / 3.)
 		D = np.array([[r/a, 0., 0.], [0., r/b, 0.], [0., 0., r/c]])
@@ -595,6 +595,7 @@ class MPU9250:
 
 		with open(filePath, 'w') as outFile:
 			json.dump(calibVals, outFile, cls =NumpyArrayEncoder)
+		print ("Calibration saved to {0} ".format(filePath))
 
 	def loadCalibDataFromFile(self, filePath):
 		""" Save the caliberation vaslues
