@@ -586,7 +586,7 @@ class MPU9250:
 		# check if folder of the path exists
 		dirName = os.path.dirname(filePath)
 		if not os.path.isdir(dirName):
-			print ("Please provide a valid folder {0} incorrect".formate(dirName))
+			print ("Please provide a valid folder {0} incorrect".format(dirName))
 			return
 		basename = os.path.basename(filePath)
 		if basename.split('.')[-1] != 'json':
