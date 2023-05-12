@@ -102,8 +102,8 @@ def getConfigVals():
 	cfg.Ak8963HXL = 0x03
 	cfg.Ak8963CNTL1 = 0x0A
 	cfg.Ak8963PowerDown = 0x00
-	cfg.Ak8963ContinuosMeasurment1 = 0x12
-	cfg.Ak8963ContinuosMeasurment2 = 0x16
+	cfg.Ak8963ContinuosMeasurment1 = 0x12 # 8Khz
+	cfg.Ak8963ContinuosMeasurment2 = 0x16 # 100Hz
 	cfg.Ak8963FuseROM = 0x0F
 	cfg.Ak8963CNTL2 = 0x0B
 	cfg.Ak8963Reset = 0x01
@@ -173,15 +173,15 @@ class MPU9250:
 			print ("The name is wrong {0}".format(name[0]))
 		self.__writeRegister(self.cfg.PowerManagement2, self.cfg.SensorEnable)
 
-		self.setAccelRange("AccelRangeSelect16G")
+		self.setAccelRange("AccelRangeSelect4G")
 
-		self.setGyroRange("GyroRangeSelect2000DPS")
+		self.setGyroRange("GyroRangeSelect500DPS")
 
-		self.setLowPassFilterFrequency("AccelLowPassFilter184")
+		self.setLowPassFilterFrequency("AccelLowPassFilter20")
 
-		self.__writeRegister(self.cfg.SMPDivider, 0x00)
+		# self.__writeRegister(self.cfg.SMPDivider, 0x00)
 		self.CurrentSRD = 0x00
-		# self.setSRD(0x00)
+		self.setSRD(0x09)
 
 		self.__writeRegister(self.cfg.UserControl, self.cfg.I2CMasterEnable)
 		self.__writeRegister(self.cfg.I2CMasterControl, self.cfg.I2CMasterClock)
@@ -217,14 +217,15 @@ class MPU9250:
 		Parameters
 		----------
 		data : int
-			This number is between 1 to 19 and decides the rate of sample collection
+			This number is between 0 to 19 and decides the rate of sample collection
+			1/(1+SMPLRT_DIV)
 
 		"""
 
 		self.CurrentSRD = data
 		self.__writeRegister(self.cfg.SMPDivider, 19)
 
-		if data > 9:
+		if data < 9: #  grater than 100Hz
 			self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963PowerDown)
 			time.sleep(0.1)
 			self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963ContinuosMeasurment1)
@@ -312,7 +313,7 @@ class MPU9250:
 			self.__writeRegister(self.cfg.GyroConfig2, self.cfg[frequency])
 			self.Frequency = frequency
 		except:
-			print ("{0} is not a proper value forlow pass filter".format(frequency))
+			print ("{0} is not a proper value for low pass filter".format(frequency))
 			return -1
 		return 1
 

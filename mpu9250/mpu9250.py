@@ -25,7 +25,7 @@ class MyPythonNode(Node):
             parameters=[
                 ('pub_mag', True),
                 ('pub_raw', True),
-                ('pub_data', False),
+                ('pub_data', True),
                 ('use_mag', True),
                 ('cal_mag', True),
                 ('cal_acc', True),
@@ -60,8 +60,7 @@ class MyPythonNode(Node):
         self.publisher_imu_data_ = self.create_publisher(Imu, "/imu/data/imu", 10)
         self.publisher_imu_mag_ = self.create_publisher(MagneticField, "/imu/mag", 10)
 
-        if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
-            self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')
+
 
         if self.get_parameter('cal_acc')._value:
             self.imu.begin()
@@ -73,6 +72,13 @@ class MyPythonNode(Node):
 
         if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
             self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')
+            self.get_parameter('acceleration_scale')._value = self.imu.Accels
+            self.get_parameter('acceleration_bias')._value = self.imu.AccelBias
+            self.get_parameter('gyro_bias')._value = self.imu.GyroBias
+            self.get_parameter('magnetometer_scale')._value = self.imu.Mags 
+            self.get_parameter('magnetometer_bias')._value = self.imu.MagBias 
+            self.get_parameter('magnetometer_transform')._value = self.imu.Magtransform 
+
 
 
         self.timer_publish_imu_values_ = self.create_timer(1.0/self.get_parameter('frequency')._value, self.publish_imu_values)
