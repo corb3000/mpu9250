@@ -61,7 +61,7 @@ class MyPythonNode(Node):
         self.publisher_imu_mag_ = self.create_publisher(MagneticField, "/imu/mag", 10)
 
         if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
-            self.imu.saveCalibDataToFile('home/bigshark/dev/imu_cal.json')
+            self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')
 
         if self.get_parameter('cal_acc')._value:
             self.imu.begin()
