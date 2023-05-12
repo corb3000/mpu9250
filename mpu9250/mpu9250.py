@@ -19,7 +19,7 @@ import tf_transformations
 
 class MyPythonNode(Node):
     def __init__(self):
-        super().__init__("my_node_name")
+        super().__init__("imu_mpu9250")
         self.declare_parameters(
             namespace='',
             parameters=[
@@ -60,6 +60,9 @@ class MyPythonNode(Node):
         self.publisher_imu_data_ = self.create_publisher(Imu, "/imu/data/imu", 10)
         self.publisher_imu_mag_ = self.create_publisher(MagneticField, "/imu/mag", 10)
 
+        if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
+            self.imu.saveCalibDataToFile('home/bigshark/dev/imu_cal.json')
+            
         if self.get_parameter('cal_acc')._value:
             self.imu.begin()
             self.imu.caliberateAccelerometer() # calibrate ACC
@@ -69,7 +72,7 @@ class MyPythonNode(Node):
             self.imu.caliberateMagPrecise() # calibrate mag
 
         if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
-            self.imu.saveCalibDataToFile('~/imu_cal.json')
+            self.imu.saveCalibDataToFile('home/bigshark/dev/imu_cal.json')
 
 
         self.timer_publish_imu_values_ = self.create_timer(1.0/self.get_parameter('frequency')._value, self.publish_imu_values)
