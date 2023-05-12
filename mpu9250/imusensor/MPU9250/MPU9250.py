@@ -653,8 +653,8 @@ class MPU9250:
 		if val[0] != data:
 			print ("It did not write the {0} to the register {1}".format(data, subaddress))
 			return -1
-		else:
-			print ("It did write the {0} to the register {1}".format(data, subaddress))
+		# else:
+			# print ("It did write the {0} to the register {1}".format(data, subaddress))
 		return 1
 
 	def __readRegisters(self, subaddress, count):
