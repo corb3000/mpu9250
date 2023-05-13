@@ -37,7 +37,7 @@ class MyPythonNode(Node):
                 ('acceleration_bias', [0.0, 0.0, 0.0]),
                 ('gyro_bias', [0.0, 0.0, 0.0]),
                 ('magnetometer_scale', [1.0, 1.0, 1.0]),
-                ('magnetometer_bias', [1.0, 1.0, 1.0]),
+                ('magnetometer_bias', [0.0, 0.0, 0.0]),
                 ('magnetometer_transform', [
                     1.0, 0.0, 0.0,
                     0.0, 1.0, 0.0,
