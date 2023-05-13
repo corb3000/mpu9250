@@ -225,7 +225,7 @@ class MPU9250:
 		self.CurrentSRD = data
 		self.__writeRegister(self.cfg.SMPDivider, 19)
 
-		if data < 9: #  grater than 100Hz
+		if data > 9: #  grater than 100Hz
 			self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963PowerDown)
 			time.sleep(0.1)
 			self.__writeAK8963Register(self.cfg.Ak8963CNTL1, self.cfg.Ak8963ContinuosMeasurment1)
@@ -299,10 +299,12 @@ class MPU9250:
 		----------
 		frequency : str
 			The supported frequencies are as following ->
-			250DPS  -> GyroRangeSelect250DPS
-			500DPS  -> GyroRangeSelect500DPS
-			1000DPS -> GyroRangeSelect1000DPS
-			2000DPS -> GyroRangeSelect2000DPS
+			AccelLowPassFilter184 = 0x01
+			AccelLowPassFilter92 = 0x02
+			AccelLowPassFilter41 = 0x03
+			AccelLowPassFilter20 = 0x04
+			AccelLowPassFilter10 = 0x05
+			AccelLowPassFilter5 = 0x06
 
 			DPS means degrees per freedom
 
@@ -343,6 +345,7 @@ class MPU9250:
 		data = self.__readRegisters(self.cfg.AccelOut, 21)
 
 		data = np.array(data[:-1]).astype(np.int16)
+		print(data)
 		magData = data[14:]
 		highbits = data[::2]<<8
 		vals = highbits + data[1::2]
@@ -351,6 +354,7 @@ class MPU9250:
 
 		self.AccelVals = (np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,:3].T)))*self.AccelScale - self.AccelBias)*self.Accels
 		self.GyroVals = np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,4:7].T)))*self.GyroScale - self.GyroBias
+		print(self.AccelVals)
 
 		if self.Magtransform is None:
 			self.MagVals = ((magvals[-3:])*self.MagScale - self.MagBias)*self.Mags
