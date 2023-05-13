@@ -112,7 +112,7 @@ def getConfigVals():
 
 	# end of register declaration
 
-	cfg.transformationMatrix = np.array([[0.0,1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,-1.0]]).astype(np.int16)
+	cfg.transformationMatrix = np.array([[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]]).astype(np.int16)
 	cfg.I2CRate = 400000
 	cfg.TempScale = 333.87
 	cfg.TempOffset = 21.0
@@ -334,6 +334,7 @@ class MPU9250:
 		self.RawGyroVals = np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,4:7].T)))*self.GyroScale
 		self.RawMagVals = (vals[-3:])*self.MagScale 
 		self.RawTemp = vals[3]
+		# print(self.RawAccelVals)
 
 	def readSensor(self):
 		"""Reading values of accelerometer, gyroscope and magnetometer 
@@ -345,7 +346,7 @@ class MPU9250:
 		data = self.__readRegisters(self.cfg.AccelOut, 21)
 
 		data = np.array(data[:-1]).astype(np.int16)
-		print(data)
+		# print(data)
 		magData = data[14:]
 		highbits = data[::2]<<8
 		vals = highbits + data[1::2]
@@ -354,7 +355,7 @@ class MPU9250:
 
 		self.AccelVals = (np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,:3].T)))*self.AccelScale - self.AccelBias)*self.Accels
 		self.GyroVals = np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,4:7].T)))*self.GyroScale - self.GyroBias
-		print(self.AccelVals)
+		# print(self.AccelVals)
 
 		if self.Magtransform is None:
 			self.MagVals = ((magvals[-3:])*self.MagScale - self.MagBias)*self.Mags
@@ -659,8 +660,8 @@ class MPU9250:
 		if val[0] != data:
 			print ("It did not write the {0} to the register {1}".format(data, subaddress))
 			return -1
-		else:
-			print ("It did write the {0} to the register {1}".format(data, subaddress))
+		# else:
+		# 	print ("It did write the {0} to the register {1}".format(data, subaddress))
 		return 1
 
 	def __readRegisters(self, subaddress, count):
