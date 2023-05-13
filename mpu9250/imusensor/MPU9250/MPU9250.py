@@ -112,7 +112,7 @@ def getConfigVals():
 
 	# end of register declaration
 
-	cfg.transformationMatrix = np.array([[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]]).astype(np.int16)
+	cfg.transformationMatrix = np.array([[0.0,1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,-1.0]]).astype(np.int16)
 	cfg.I2CRate = 400000
 	cfg.TempScale = 333.87
 	cfg.TempOffset = 21.0
