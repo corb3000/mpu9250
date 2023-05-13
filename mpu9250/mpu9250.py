@@ -68,7 +68,7 @@ class MyPythonNode(Node):
 
         if self.get_parameter('cal_mag')._value:
             self.imu.begin()
-            self.imu.caliberateMagPrecise() # calibrate mag
+            self.imu.caliberateMagApprox() # calibrate mag
 
         if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
             self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')

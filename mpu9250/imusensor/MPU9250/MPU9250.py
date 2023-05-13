@@ -483,11 +483,13 @@ class MPU9250:
 		pitch and roll angles.
 
 		"""
-
+		
+		input("Make sure you rotate the sensor in 8 shape and cover all the pitch and roll angles.. Press enter to continue..")
 		currentSRD = self.CurrentSRD
 		self.setSRD(19)
 		numSamples = 1000
 		magvals = np.zeros((numSamples,3))
+		print("Approx mag cal started")
 		for sample in range(1,numSamples):
 			self.readSensor()
 			magvals[sample] = self.MagVals/self.Mags + self.MagBias
@@ -498,7 +500,7 @@ class MPU9250:
 		self.MagBias = (minvals + maxvals)/2.0
 		averageRad = (((maxvals - minvals)/2.0).sum())/3.0
 		self.Mags = ((maxvals - minvals)/2.0)*(1/averageRad)
-
+		print ("Approx Mag calibration compleat")
 		self.setSRD(currentSRD)
 
 	def caliberateMagPrecise(self):
