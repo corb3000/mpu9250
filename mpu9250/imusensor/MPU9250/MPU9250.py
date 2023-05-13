@@ -363,7 +363,7 @@ class MPU9250:
 		else:
 			self.MagVals = np.matmul((magvals[-3:])*self.MagScale - self.MagBias, self.Magtransform)
 		print(self.MagVals)
-		print(self.MagScale, self.MagBias, self.Mags)
+		print(self.MagScale, self.MagBias, self.Magtransform)
 
 		self.Temp = (vals[3] - self.cfg.TempOffset)/self.cfg.TempScale + self.cfg.TempOffset
 
