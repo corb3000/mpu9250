@@ -39,9 +39,9 @@ class MyPythonNode(Node):
                 ('magnetometer_scale', [1.0, 1.0, 1.0]),
                 ('magnetometer_bias', [0.0, 0.0, 0.0]),
                 ('magnetometer_transform', [
-                    1.0, 0.0, 0.0,
                     0.0, 1.0, 0.0,
-                    0.0, 0.0, 1.0]),
+                    1.0, 0.0, 0.0,
+                    0.0, 0.0, -1.0]),
             ]
         )
 
