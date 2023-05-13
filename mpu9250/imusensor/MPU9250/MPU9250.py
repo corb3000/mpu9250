@@ -119,9 +119,9 @@ def getConfigVals():
 	cfg.Gravity = 9.807
 	cfg.Degree2Radian = np.pi/180.0
 
-	cfg.acc_t_matrix_ned = np.array([[0.0,-1.0,0.0],[-1.0,0.0,0.0],[0.0,0.0,1.0]]) #np.array([-1.0,1.0,1.0])
-	cfg.gyro_t_matrix_ned = np.array([[0.0,1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,-1.0]]) #np.array([1.0,-1.0,-1.0])
-	cfg.mag_t_matrix_ned = np.array([[0.0,-1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,1.0]])
+	# cfg.acc_t_matrix_ned = np.array([[0.0,-1.0,0.0],[-1.0,0.0,0.0],[0.0,0.0,1.0]]) #np.array([-1.0,1.0,1.0])
+	# cfg.gyro_t_matrix_ned = np.array([[0.0,1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,-1.0]]) #np.array([1.0,-1.0,-1.0])
+	# cfg.mag_t_matrix_ned = np.array([[0.0,-1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,1.0]])
 
 	return cfg
 
@@ -356,12 +356,13 @@ class MPU9250:
 		self.AccelVals = (np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,:3].T)))*self.AccelScale - self.AccelBias)*self.Accels
 		self.GyroVals = np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,4:7].T)))*self.GyroScale - self.GyroBias
 		# print(self.AccelVals)
-
+		print("mag")
+		print(magvals)
 		if self.Magtransform is None:
 			self.MagVals = ((magvals[-3:])*self.MagScale - self.MagBias)*self.Mags
 		else:
 			self.MagVals = np.matmul((magvals[-3:])*self.MagScale - self.MagBias, self.Magtransform)
-
+		print(self.MagVals)
 		self.Temp = (vals[3] - self.cfg.TempOffset)/self.cfg.TempScale + self.cfg.TempOffset
 
 	def caliberateGyro(self):
@@ -513,6 +514,7 @@ class MPU9250:
 		self.setSRD(19)
 		numSamples = 1000
 		magvals = np.zeros((numSamples,3))
+		print ("Mag calibration started")
 		for sample in range(1,numSamples):
 			self.readSensor()
 			magvals[sample] = self.MagVals/self.Mags + self.MagBias
