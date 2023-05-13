@@ -99,7 +99,7 @@ class MyPythonNode(Node):
         msg_data = Imu()
         msg_mag = MagneticField()
 
-        self.imu.readRawSensor()
+        self.imu.readSensor()
         time_stamp = self.get_clock().now().to_msg()       
         deltaTime = (self.get_clock().now() - self.lastTime).nanoseconds * 10e9
         self.lastTime = self.get_clock().now()
