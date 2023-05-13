@@ -157,7 +157,7 @@ class MPU9250:
 		pass filter.
 
 		"""
-
+		print("IMU Begin")
 		self.__writeRegister(self.cfg.PowerManagement1, self.cfg.ClockPLL)
 		self.__writeRegister(self.cfg.UserControl, self.cfg.I2CMasterEnable)
 		self.__writeRegister(self.cfg.I2CMasterControl, self.cfg.I2CMasterClock)

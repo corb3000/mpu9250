@@ -60,7 +60,7 @@ class MyPythonNode(Node):
         self.publisher_imu_data_ = self.create_publisher(Imu, "/imu/data/imu", 10)
         self.publisher_imu_mag_ = self.create_publisher(MagneticField, "/imu/mag", 10)
 
-
+        print("Node started")
 
         if self.get_parameter('cal_acc')._value:
             self.imu.begin()
