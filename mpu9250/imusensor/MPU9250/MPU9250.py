@@ -346,7 +346,7 @@ class MPU9250:
 		data = self.__readRegisters(self.cfg.AccelOut, 21)
 
 		data = np.array(data[:-1]).astype(np.int16)
-		# print(data)
+		print(data)
 		magData = data[14:]
 		highbits = data[::2]<<8
 		vals = highbits + data[1::2]
@@ -357,7 +357,7 @@ class MPU9250:
 		self.GyroVals = np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,4:7].T)))*self.GyroScale - self.GyroBias
 		# print(self.AccelVals)
 		print("mag")
-		print(magvals)
+		print(magvals, magHighbits, magData)
 		if self.Magtransform is None:
 			self.MagVals = ((magvals[-3:])*self.MagScale - self.MagBias)*self.Mags
 		else:
