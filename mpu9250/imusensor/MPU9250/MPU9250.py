@@ -181,7 +181,7 @@ class MPU9250:
 
 		# self.__writeRegister(self.cfg.SMPDivider, 0x00)
 		self.CurrentSRD = 0x00
-		self.setSRD(0xA)
+		self.setSRD(0x7)
 
 		self.__writeRegister(self.cfg.UserControl, self.cfg.I2CMasterEnable)
 		self.__writeRegister(self.cfg.I2CMasterControl, self.cfg.I2CMasterClock)
