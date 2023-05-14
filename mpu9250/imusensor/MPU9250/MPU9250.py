@@ -112,7 +112,7 @@ def getConfigVals():
 
 	# end of register declaration
 
-	cfg.transformationMatrix = np.array([[0.0,1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,-1.0]]).astype(np.int16)
+	cfg.transformationMatrix = np.array([[0.0,1.0,0.0],[1.0,0.0,0.0],[0.0,0.0,-1.0]]).astype(np.int16) # convert Acc and Gyro into same orientation as Mag
 	cfg.I2CRate = 400000
 	cfg.TempScale = 333.87
 	cfg.TempOffset = 21.0
@@ -346,7 +346,7 @@ class MPU9250:
 		data = self.__readRegisters(self.cfg.AccelOut, 21)
 
 		data = np.array(data[:-1]).astype(np.int16)
-		print(data)
+		# print(data)
 		magData = data[14:]
 		highbits = data[::2]<<8
 		vals = highbits + data[1::2]
@@ -362,8 +362,8 @@ class MPU9250:
 			self.MagVals = ((magvals[-3:])*self.MagScale - self.MagBias)*self.Mags
 		else:
 			self.MagVals = np.matmul((magvals[-3:])*self.MagScale - self.MagBias, self.Magtransform)
-		print(self.MagVals)
-		print(self.MagScale, self.MagBias, self.Magtransform)
+		# print(self.MagVals)
+		# print(self.MagScale, self.MagBias, self.Magtransform)
 
 		self.Temp = (vals[3] - self.cfg.TempOffset)/self.cfg.TempScale + self.cfg.TempOffset
 
@@ -660,7 +660,7 @@ class MPU9250:
 	def __writeRegister(self, subaddress, data):
 
 		self.Bus.write_byte_data(self.cfg.Address, subaddress, data)
-		time.sleep(0.01)
+		time.sleep(0.1)
 
 		val = self.__readRegisters(subaddress,1)
 		if val[0] != data:

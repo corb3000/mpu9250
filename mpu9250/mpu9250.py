@@ -42,6 +42,10 @@ class MyPythonNode(Node):
                     1.0, 0.0, 0.0,
                     0.0, 1.0, 0.0,
                     0.0, 0.0, 1.0]),
+                ('output_transform', [
+                    1.0, 0.0, 0.0,
+                    0.0, 1.0, 0.0,
+                    0.0, 0.0, 1.0]),
             ]
         )
 
@@ -55,6 +59,7 @@ class MyPythonNode(Node):
         self.imu.Mags = np.asarray(self.get_parameter('magnetometer_scale')._value)
         self.imu.MagBias = np.asarray(self.get_parameter('magnetometer_bias')._value)
         self.imu.Magtransform = np.reshape(np.asarray(self.get_parameter('magnetometer_transform')._value),(3,3))
+        self.imu.OutputTransform = np.reshape(np.asarray(self.get_parameter('output_transform')._value),(3,3))
 
         self.publisher_imu_raw_ = self.create_publisher(Imu, "/imu/data_raw", 10)
         self.publisher_imu_data_ = self.create_publisher(Imu, "/imu/data/imu", 10)
@@ -77,7 +82,7 @@ class MyPythonNode(Node):
             self.get_parameter('gyro_bias')._value = self.imu.GyroBias
             self.get_parameter('magnetometer_scale')._value = self.imu.Mags 
             self.get_parameter('magnetometer_bias')._value = self.imu.MagBias 
-            self.get_parameter('magnetometer_transform')._value = self.imu.Magtransform 
+            self.get_parameter('magnetometer_transform')._value = self.imu.Magtransform.reshape(9)
 
 
 
@@ -89,6 +94,7 @@ class MyPythonNode(Node):
         self.imu.begin()
         self.imu.readSensor()    
         self.imu.computeOrientation()
+
         self.sensorfusion.roll = self.imu.roll
         self.sensorfusion.pitch = self.imu.pitch
         self.sensorfusion.yaw = self.imu.yaw
@@ -107,6 +113,9 @@ class MyPythonNode(Node):
         msg_data.header.stamp = time_stamp
         msg_data.header.frame_id = self.get_parameter('frame_id')._value
         # Direct measurements
+        self.imu.AccelVals = self.imu.OutputTransform.dot(self.imu.AccelVals)
+        self.imu.GyroVals = self.imu.OutputTransform.dot(self.imu.GyroVals)
+        self.imu.MagVals = self.imu.OutputTransform.dot(self.imu.MagVals)
         msg_data.linear_acceleration_covariance = [0.0025, 0.0, 0.0, 0.0, 0.0025, 0.0, 0.0, 0.0, 0.0025]
         msg_data.linear_acceleration.x = self.imu.AccelVals[0]
         msg_data.linear_acceleration.y = self.imu.AccelVals[1]
