@@ -82,7 +82,8 @@ class MyPythonNode(Node):
             self.get_parameter('gyro_bias')._value = self.imu.GyroBias
             self.get_parameter('magnetometer_scale')._value = self.imu.Mags 
             self.get_parameter('magnetometer_bias')._value = self.imu.MagBias 
-            self.get_parameter('magnetometer_transform')._value = self.imu.Magtransform.reshape(9)
+            self.get_parameter('magnetometer_transform')._value = self.imu.Magtransform.reshape(9).astype(float)
+            print(self.get_parameter('magnetometer_transform')._value)
 
 
 
