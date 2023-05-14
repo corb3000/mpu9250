@@ -356,8 +356,8 @@ class MPU9250:
 		self.AccelVals = (np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,:3].T)))*self.AccelScale - self.AccelBias)*self.Accels
 		self.GyroVals = np.squeeze(self.cfg.transformationMatrix.dot((vals[np.newaxis,4:7].T)))*self.GyroScale - self.GyroBias
 		# print(self.AccelVals)
-		print("mag")
-		print(magvals, magHighbits, magData)
+		# print("mag")
+		# print(magvals, magHighbits, magData)
 		if self.Magtransform is None:
 			self.MagVals = ((magvals[-3:])*self.MagScale - self.MagBias)*self.Mags
 		else:
