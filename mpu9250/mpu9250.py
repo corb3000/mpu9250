@@ -77,13 +77,17 @@ class MyPythonNode(Node):
 
         if self.get_parameter('cal_acc')._value or self.get_parameter('cal_mag')._value:
             self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')
-            self.get_parameter('acceleration_scale')._value = self.imu.Accels
-            self.get_parameter('acceleration_bias')._value = self.imu.AccelBias
-            self.get_parameter('gyro_bias')._value = self.imu.GyroBias
-            self.get_parameter('magnetometer_scale')._value = self.imu.Mags 
-            self.get_parameter('magnetometer_bias')._value = self.imu.MagBias 
-            # self.get_parameter('magnetometer_transform')._value = self.imu.Magtransform.reshape(9).astype(float)
-            # print(self.get_parameter('magnetometer_transform')._value)
+            
+            update_param = [
+                ('acceleration_scale', self.imu.Accels),
+                ('acceleration_bias', self.imu.AccelBias),
+                ('gyro_bias', self.imu.GyroBias),
+                ('magnetometer_scale', self.imu.Mags),
+                ('magnetometer_bias', self.imu.MagBias),
+                ('magnetometer_transform', self.imu.Magtransform.reshape(9))
+            ]
+
+            self.set_parameters(update_param)
 
 
 

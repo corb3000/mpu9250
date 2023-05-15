@@ -660,7 +660,7 @@ class MPU9250:
 	def __writeRegister(self, subaddress, data):
 
 		self.Bus.write_byte_data(self.cfg.Address, subaddress, data)
-		time.sleep(0.1)
+		time.sleep(0.01)
 
 		val = self.__readRegisters(subaddress,1)
 		if val[0] != data:
