@@ -80,12 +80,12 @@ class MyPythonNode(Node):
             self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')
             
             update_param = [
-                Parameter('acceleration_scale', self.imu.Accels),
-                Parameter('acceleration_bias', self.imu.AccelBias),
-                Parameter('gyro_bias', self.imu.GyroBias),
-                Parameter('magnetometer_scale', self.imu.Mags),
-                Parameter('magnetometer_bias', self.imu.MagBias),
-                Parameter('magnetometer_transform', self.imu.Magtransform.reshape(9))
+                Parameter('acceleration_scale', Parameter.Type.DOUBLE_ARRAY, self.imu.Accels),
+                Parameter('acceleration_bias', Parameter.Type.DOUBLE_ARRAY, self.imu.AccelBias),
+                Parameter('gyro_bias', Parameter.Type.DOUBLE_ARRAY, self.imu.GyroBias),
+                Parameter('magnetometer_scale', Parameter.Type.DOUBLE_ARRAY, self.imu.Mags),
+                Parameter('magnetometer_bias', Parameter.Type.DOUBLE_ARRAY, self.imu.MagBias),
+                Parameter('magnetometer_transform', Parameter.Type.DOUBLE_ARRAY, self.imu.Magtransform.reshape(9))
             ]
 
             self.set_parameters(update_param)
