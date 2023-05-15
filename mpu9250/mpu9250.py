@@ -12,6 +12,7 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import Imu, MagneticField
+from rclpy.parameter import Parameter
 
 from math import sin, cos, radians
 import tf_transformations
@@ -79,12 +80,12 @@ class MyPythonNode(Node):
             self.imu.saveCalibDataToFile('/home/bigshark/dev_ws/imu_cal.json')
             
             update_param = [
-                ('acceleration_scale', self.imu.Accels),
-                ('acceleration_bias', self.imu.AccelBias),
-                ('gyro_bias', self.imu.GyroBias),
-                ('magnetometer_scale', self.imu.Mags),
-                ('magnetometer_bias', self.imu.MagBias),
-                ('magnetometer_transform', self.imu.Magtransform.reshape(9))
+                Parameter('acceleration_scale', self.imu.Accels),
+                Parameter('acceleration_bias', self.imu.AccelBias),
+                Parameter('gyro_bias', self.imu.GyroBias),
+                Parameter('magnetometer_scale', self.imu.Mags),
+                Parameter('magnetometer_bias', self.imu.MagBias),
+                Parameter('magnetometer_transform', self.imu.Magtransform.reshape(9))
             ]
 
             self.set_parameters(update_param)
