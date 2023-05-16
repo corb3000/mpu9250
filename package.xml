@@ -4,7 +4,7 @@
   <name>mpu9250</name>
   <version>0.0.0</version>
   <description>Driver package for the MPU9250 sensor package</description>
-  <maintainer email="git@nilsschulte.de">hexa</maintainer>
+  <maintainer email="corb3000@gmail.com">hexa</maintainer>
   <license>MIT</license>
   <buildtool_depend>ament_python</buildtool_depend> 
 
